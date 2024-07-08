@@ -36,7 +36,13 @@
 }
 
 .single:nth-of-type(1)  {
-  width: 100%;
+  width: 99%;
+  background: #0c4506!important;
+  border-bottom: 3px solid white;
+}
+
+.single:nth-of-type(5), .single:nth-of-type(6), .single:nth-of-type(7), .single:nth-of-type(11), .single:nth-of-type(12), .single:nth-of-type(13), .single:nth-of-type(17), .single:nth-of-type(18), .single:nth-of-type(19), .single:nth-of-type(23), .single:nth-of-type(24), .single:nth-of-type(25), .single:nth-of-type(29), .single:nth-of-type(30), .single:nth-of-type(31){
+  border-bottom: 3px solid white;
 }
 
 body{

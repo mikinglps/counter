@@ -107,7 +107,7 @@ function App() {
             for (let i = 0; i <= amount; i++) {
 
                 arr.push(
-                  <div className='single' style={i % 2 == 0 ? {backgroundColor: 'black', color: 'white'} : {backgroundColor: 'red', color: 'white'} }>
+                  <div className='single' style={i % 2 == 0 ? {backgroundColor: 'black', color: 'white'} : {backgroundColor: 'rgb(156,28,21)', color: 'white'} }>
                     <h2>{i}</h2>
                     <p>{localStorage.getItem(String(i))}</p>
                   </div>
