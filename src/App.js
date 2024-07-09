@@ -13,8 +13,8 @@ function App() {
 
   const updateValue = () => {
     let grupo;
-    if(value > 36){
-      window.alert("Número maior que 36."); 
+    if(value > 36 || value == undefined || value == null){
+      window.alert("Número maior que 36, ou nenhum número foi adicionado."); 
       return
     }
     localStorage.setItem(String(value), Number(localStorage.getItem(value)) + 1 )
