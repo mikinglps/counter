@@ -2,7 +2,7 @@ import './App.css';
 import {useEffect, useRef, useState} from 'react';
 
 function App() {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState();
   const [loading, setLoading] = useState(true);
   const [values, setValues] = useState([]);
   const [gruposState, setGruposState] = useState([]);
@@ -37,6 +37,10 @@ function App() {
         localStorage.setItem("grupos"+String(i), Number(localStorage.getItem("grupos"+String(i))) + 1);
       }
     }
+  }
+
+  const limparGrupo = (nmrGrupo) => {
+    localStorage.setItem("grupos"+String(nmrGrupo), 0)
   }
   
   const clear = () => {
@@ -87,6 +91,14 @@ function App() {
       <form>
         <input type="number" value={value} onChange={(e) => setValue(e.target.value)}/>
         <button onClick={() => {updateValue()}}>Confirmar</button><button onClick={() => clear()}>Limpar</button>
+        <div className='buttonGrupo'>
+          <button onClick={() => limparGrupo(0)}>Limpar Grupo 1</button>
+          <button onClick={() => limparGrupo(1)}>Limpar Grupo 2</button>
+          <button onClick={() => limparGrupo(2)}>Limpar Grupo 3</button>
+          <button onClick={() => limparGrupo(3)}>Limpar Grupo 4</button>
+          <button onClick={() => limparGrupo(4)}>Limpar Grupo 5</button>
+          <button onClick={() => limparGrupo(5)}>Limpar Grupo 6</button>
+        </div>
       </form>
       </div>
       <div className='grupos'>
