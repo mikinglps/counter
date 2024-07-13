@@ -13,23 +13,30 @@ function App() {
 
   const updateValue = () => {
     let grupo;
+    let oldgrupo;
     if(value > 36 || value == undefined || value == null){
       window.alert("Número maior que 36, ou nenhum número foi adicionado."); 
       return
     }
     localStorage.setItem(String(value), Number(localStorage.getItem(value)) + 1 )
-    if(value > 0 && value <= 6){
+    if(value > 0 && value <= 6){  
       grupo = 0;
+      localStorage.setItem("grupos"+String(grupo), 0);
     }else if(value > 6 && value <= 12){
-      grupo = 1
+      grupo = 1;
+      localStorage.setItem("grupos"+String(grupo), 0);
     }else if(value > 12 && value <= 18){
       grupo = 2;
+      localStorage.setItem("grupos"+String(grupo), 0);
     }else if(value > 18 && value <= 24){
       grupo = 3;
+      localStorage.setItem("grupos"+String(grupo), 0);
     }else if(value > 24 && value <= 30){
       grupo = 4;
+      localStorage.setItem("grupos"+String(grupo), 0);
     }else if(value > 30 && value <= 36){
-      grupo = 5
+      grupo = 5;
+      localStorage.setItem("grupos"+String(grupo), 0);
     }
 
     for(let i = 0; i < 6; i++){
