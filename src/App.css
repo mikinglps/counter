@@ -14,7 +14,9 @@
 }
 
 .right{
+  padding: 1%;
   width: 20%;
+  word-wrap: break-all;
 }
 
 .grupos-2{
