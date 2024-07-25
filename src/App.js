@@ -6,18 +6,23 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [values, setValues] = useState([]);
   const [gruposState, setGruposState] = useState([]);
+  const [gruposLeft, setGruposLeft] = useState([]);
+  const [oldValue, setOldValue] = useState();
+  const [oldGroup, setOldGroup] = useState();
   const gruposArr = [];
   const ref = useRef();
   const amount = 36;
   const arr = [];
 
-  const updateValue = () => {
+  const updateValue = async () => {
+    
     let grupo;
-    let oldgrupo;
     if(value > 36 || value == undefined || value == null){
       window.alert("Número maior que 36, ou nenhum número foi adicionado."); 
       return
     }
+    
+
     localStorage.setItem(String(value), Number(localStorage.getItem(value)) + 1 )
     if(value > 0 && value <= 6){  
       grupo = 0;
@@ -37,6 +42,40 @@ function App() {
     }else if(value > 30 && value <= 36){
       grupo = 5;
       localStorage.setItem("grupos"+String(grupo), 0);
+    }
+
+    localStorage.setItem("oldgrupo", String(grupo))
+    localStorage.setItem("oldvalue", String(value))
+    
+
+    if(oldGroup != grupo && oldValue != null){
+      
+      if(localStorage.getItem("grupoholder"+String(grupo)) != 'undefined'){
+        let splitter = localStorage.getItem("grupoholder"+String(grupo)).split(',')
+        if(splitter.length == 50){
+          let old = splitter[49] //Armazena o último valor do array
+          let temp; //Variavel temporária
+          for(let i = 49; i >= 0; i--){
+                if(i == 0){
+                  temp = splitter[i + 1] //Se for 0, pra não acessar o valor -1, ele pega o valor de [1]
+                }else{
+                temp = splitter[i - 1] //Se não for 0, ele pega o valor anterior da variavel para ser mudada
+                }
+                splitter[i - 1] = old //Variavel a ser mudada. Precisa ser armazenada antes, para não perde-la
+                old = temp; //Muda o valor de old, para usar o antigo número, não o novo.
+              }
+          
+  
+          splitter[49] = oldValue;
+  
+          localStorage.setItem("grupoholder"+String(grupo), String(splitter));
+        }else{
+          localStorage.setItem("grupoholder"+String(oldGroup), localStorage.getItem("grupoholder"+String(oldGroup)) + "," + oldValue)
+        }
+    }else{
+        localStorage.setItem("grupoholder"+String(oldGroup), oldValue);
+      }
+
     }
 
     for(let i = 0; i < 6; i++){
@@ -66,6 +105,11 @@ function App() {
 
   useEffect(() => {
     if(loading){
+      setOldValue(localStorage.getItem("oldvalue"));
+      setOldGroup(localStorage.getItem("oldgrupo"));
+      console.log(localStorage.getItem("oldvalue"))
+
+
     const newArr = []
     for(let i = 0; i <= amount; i++){
       newArr.push(localStorage.getItem(String(arr[i])))
@@ -79,11 +123,21 @@ function App() {
     for(let i = 0; i < 6; i++){
       grupos.push(localStorage.getItem("grupos"+String(i)));
       if(localStorage.getItem("grupos"+String(i)) == null || localStorage.getItem("grupos"+String(i)) == undefined){
-        console.log("Sim");
         localStorage.setItem("grupos"+String(i), 0);
       }
     }
       setGruposState(grupos)
+
+    const gruposHolder = [];
+    for(let i = 0; i < 6; i++){
+      gruposHolder.push(localStorage.getItem("grupoholder"+String(i)));
+      if(localStorage.getItem("grupoholder"+String(i)) == null || localStorage.getItem("grupoholder"+String(i)) == undefined){
+        localStorage.setItem("grupoholder"+String(i), undefined);
+      }
+    }
+
+    setGruposLeft(gruposHolder);
+
   }
   },[loading])
 
@@ -120,6 +174,17 @@ function App() {
           return gruposArr;
         })()}
       </div>
+      <div className='holder-numbers'>
+        <div className='left'>
+          <div className='grupos-2'>
+            <p>Grupo 1: {gruposLeft[0] != 'undefined' ? gruposLeft[0] : null}</p>
+            <p>Grupo 2: {gruposLeft[1] != 'undefined' ? gruposLeft[1] : null}</p>
+            <p>Grupo 3: {gruposLeft[2] != 'undefined' ? gruposLeft[2] : null}</p>
+            <p>Grupo 4: {gruposLeft[3] != 'undefined' ? gruposLeft[3] : null}</p>
+            <p>Grupo 5: {gruposLeft[4] != 'undefined' ? gruposLeft[4] : null}</p>
+            <p>Grupo 6: {gruposLeft[5] != 'undefined' ? gruposLeft[5] : null}</p>
+          </div>
+        </div>
       <div className='numbers'>
       
       {(() => {
@@ -136,6 +201,10 @@ function App() {
             return arr;
         })()}
       </div>
+      <div className='right'>
+
+      </div>
+    </div>
     </div>
   );
 }

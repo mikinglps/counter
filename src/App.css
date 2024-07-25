@@ -3,6 +3,28 @@
   color: white;
 }
 
+.holder-numbers{
+  display: flex;
+  flex-direction: row;
+  color: white;
+}
+
+.left{
+  width: 20%;
+}
+
+.right{
+  width: 20%;
+}
+
+.grupos-2{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1%;
+  word-break: break-all;
+}
+
 .grupos{
   justify-content: center;
   display: flex;
