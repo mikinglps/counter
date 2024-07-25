@@ -1,5 +1,6 @@
 import './App.css';
 import {useEffect, useRef, useState} from 'react';
+import calculateMode from './ModeCalc';
 
 function App() {
   const [value, setValue] = useState();
@@ -9,6 +10,8 @@ function App() {
   const [gruposLeft, setGruposLeft] = useState([]);
   const [oldValue, setOldValue] = useState();
   const [oldGroup, setOldGroup] = useState();
+  const [groupsModo, setGroupsModo] = useState();
+  const [additionalGroups, setAdditionalGroups] = useState();
   const gruposArr = [];
   const ref = useRef();
   const amount = 36;
@@ -27,6 +30,8 @@ function App() {
     if(value > 0 && value <= 6){  
       grupo = 0;
       
+      localStorage.setItem("additionalGroups0", Number(localStorage.getItem("additionalGroups0")) + 1 )
+
       if(Number(localStorage.getItem("grupos"+String(grupo))) > 0){
 
         if(localStorage.getItem("grupoholder"+String(grupo)) != 'undefined'){
@@ -60,6 +65,7 @@ function App() {
       localStorage.setItem("grupos"+String(grupo), 0);
     }else if(value > 6 && value <= 12){
       grupo = 1;
+      localStorage.setItem("additionalGroups1", Number(localStorage.getItem("additionalGroups1")) + 1 )
       if(Number(localStorage.getItem("grupos"+String(grupo))) > 0){
 
         if(localStorage.getItem("grupoholder"+String(grupo)) != 'undefined'){
@@ -93,6 +99,9 @@ function App() {
       localStorage.setItem("grupos"+String(grupo), 0);
     }else if(value > 12 && value <= 18){
       grupo = 2;
+
+      localStorage.setItem("additionalGroups2", Number(localStorage.getItem("additionalGroups2")) + 1 )
+
       if(Number(localStorage.getItem("grupos"+String(grupo))) > 0){
 
         if(localStorage.getItem("grupoholder"+String(grupo)) != 'undefined'){
@@ -126,6 +135,7 @@ function App() {
       localStorage.setItem("grupos"+String(grupo), 0);
     }else if(value > 18 && value <= 24){
       grupo = 3;
+      localStorage.setItem("additionalGroups3", Number(localStorage.getItem("additionalGroups3")) + 1 )
       if(Number(localStorage.getItem("grupos"+String(grupo))) > 0){
 
         if(localStorage.getItem("grupoholder"+String(grupo)) != 'undefined'){
@@ -159,6 +169,7 @@ function App() {
       localStorage.setItem("grupos"+String(grupo), 0);
     }else if(value > 24 && value <= 30){
       grupo = 4;
+      localStorage.setItem("additionalGroups4", Number(localStorage.getItem("additionalGroups4")) + 1 )
       if(Number(localStorage.getItem("grupos"+String(grupo))) > 0){
 
         if(localStorage.getItem("grupoholder"+String(grupo)) != 'undefined'){
@@ -192,6 +203,7 @@ function App() {
       localStorage.setItem("grupos"+String(grupo), 0);
     }else if(value > 30 && value <= 36){
       grupo = 5;
+      localStorage.setItem("additionalGroups5", Number(localStorage.getItem("additionalGroups5")) + 1 )
       if(Number(localStorage.getItem("grupos"+String(grupo))) > 0){
 
         if(localStorage.getItem("grupoholder"+String(grupo)) != 'undefined'){
@@ -264,18 +276,47 @@ function App() {
     for(let i = 0; i < 6; i++){
       if(i != grupo){
         localStorage.setItem("grupos"+String(i), Number(localStorage.getItem("grupos"+String(i))) + 1);
-      }else{
-
       }
     }
+
   }
 
   const limparGrupo = (nmrGrupo) => {
     localStorage.setItem("grupos"+String(nmrGrupo), 0)
+    localStorage.setItem("grupoholder"+String(nmrGrupo), 'undefined');
   }
   
   const clear = () => {
     localStorage.clear();
+  }
+
+  const calculatePercentage = () => {
+    let groups = [];
+    for(let i = 0; i < 6; i++){
+      if(localStorage.getItem(`additionalGroups${i}`).includes(",")){
+        let newArr = localStorage.getItem(`additionalGroups${i}`).split(',')
+        for(let a = 0; a < newArr.length; a++){
+          groups.push(Number(newArr[a]));
+        }
+      }else{
+        groups.push(Number(localStorage.getItem(`additionalGroups${i}`)))
+      }
+    }
+
+    let percentages = [];
+    let total = 0;
+    for(let i = 0; i < groups.length; i++){
+      total += groups[i] 
+    }
+
+    for(let i = 0; i < groups.length; i++){
+      percentages[i] = (groups[i] / total) * 100
+    }
+
+    for(let i = 0; i < groups.length; i++){
+      localStorage.setItem(`percentages${i}`, Math.trunc(Number(percentages[i])))
+    }
+    
   }
 
   
@@ -292,7 +333,7 @@ function App() {
     if(loading){
       setOldValue(localStorage.getItem("oldvalue"));
       setOldGroup(localStorage.getItem("oldgrupo"));
-
+      
 
     const newArr = []
     for(let i = 0; i <= amount; i++){
@@ -312,6 +353,16 @@ function App() {
     }
       setGruposState(grupos)
 
+    const additionalGroups = []
+    for(let i = 0; i < 6; i++){
+      additionalGroups.push(localStorage.getItem("additionalGroups"+String(i)));
+      if(localStorage.getItem("additionalGroups"+String(i)) == null || localStorage.getItem("additionalGroups"+String(i)) == undefined){
+        localStorage.setItem("additionalGroups"+String(i), 0)
+      }
+    }
+
+    setAdditionalGroups(additionalGroups)
+
     const gruposHolder = [];
     for(let i = 0; i < 6; i++){
       gruposHolder.push(localStorage.getItem("grupoholder"+String(i)));
@@ -322,7 +373,25 @@ function App() {
 
     setGruposLeft(gruposHolder);
 
+    const gruposModo = []
+    for(let i = 0; i < 6; i++){
+      gruposModo.push(localStorage.getItem(`gruposmodo${i}`))
+      if(localStorage.getItem(`grupomodo${i}`) == null || localStorage.getItem(`grupomodo${i}`) == undefined){
+        localStorage.setItem(`grupomodo${i}`, undefined)
+      }
+    }
+
+    const percentagesGrupo = [];
+    for(let i = 0; i < 6; i++){
+      percentagesGrupo.push(localStorage.getItem(`percentages${i}`));
+      if(localStorage.getItem(`percentages${i}`) == null || localStorage.getItem(`percentages${i}`) == undefined){
+        localStorage.setItem(`percentages${i}`, 0);
+      }
+    }
+    calculatePercentage()
   }
+
+    
   },[loading])
 
   if(loading){
@@ -386,7 +455,20 @@ function App() {
         })()}
       </div>
       <div className='right'>
-
+        <div>
+          <p>MODO G1: {String(calculateMode(localStorage.getItem("grupoholder0")))}</p>
+          <p>MODO G2: {String(calculateMode(localStorage.getItem("grupoholder1")))}</p>
+          <p>MODO G3: {String(calculateMode(localStorage.getItem("grupoholder2")))}</p>
+          <p>MODO G4: {String(calculateMode(localStorage.getItem("grupoholder3")))}</p>
+          <p>MODO G5: {String(calculateMode(localStorage.getItem("grupoholder4")))}</p>
+          <p>MODO G6: {String(calculateMode(localStorage.getItem("grupoholder5")))}</p>
+          <p>Grupo 1: {localStorage.getItem("percentages0") == NaN ? null : localStorage.getItem("percentages0")}%</p>
+          <p>Grupo 2: {localStorage.getItem("percentages1") == NaN ? null : localStorage.getItem("percentages1")}%</p>
+          <p>Grupo 3: {localStorage.getItem("percentages2") == NaN ? null : localStorage.getItem("percentages2")}%</p>
+          <p>Grupo 4: {localStorage.getItem("percentages3") == NaN ? null : localStorage.getItem("percentages3")}%</p>
+          <p>Grupo 5: {localStorage.getItem("percentages4") == NaN ? null : localStorage.getItem("percentages4")}%</p>
+          <p>Grupo 6: {localStorage.getItem("percentages5") == NaN ? null : localStorage.getItem("percentages5")}%</p>
+        </div>
       </div>
     </div>
     </div>
