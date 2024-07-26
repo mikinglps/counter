@@ -396,7 +396,7 @@ function App() {
     calculatePercentage()
   }else{
     //Mudar a cor do texto
-    let l1Array = ref1.current.innerHTML.split(',');
+    /*let l1Array = ref1.current.innerHTML.split(',');
     let newContent;
     let l1MaiorNumero;
     console.log(l1Array);
@@ -413,7 +413,7 @@ function App() {
     }
     }
   }
-    ref1.current.innerHTML = newContent;
+    ref1.current.innerHTML = newContent;*/
   }
 
     
