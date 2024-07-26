@@ -13,7 +13,12 @@ function App() {
   const [groupsModo, setGroupsModo] = useState();
   const [additionalGroups, setAdditionalGroups] = useState();
   const gruposArr = [];
-  const ref = useRef();
+  const ref1 = useRef();
+  const ref2 = useRef();
+  const ref3 = useRef();
+  const ref4 = useRef();
+  const ref5 = useRef();
+  const ref6 = useRef();
   const amount = 36;
   const arr = [];
 
@@ -389,6 +394,26 @@ function App() {
       }
     }
     calculatePercentage()
+  }else{
+    //Mudar a cor do texto
+    let l1Array = ref1.current.innerHTML.split(',');
+    let newContent;
+    let l1MaiorNumero;
+    console.log(l1Array);
+  for(let i = 0; i < l1Array.length; i++){
+    if(l1Array[i] != undefined){
+      
+    if(l1Array[i] > l1MaiorNumero){
+      l1MaiorNumero = l1Array[i];
+    }
+    if(l1Array[i] === l1MaiorNumero){
+      newContent += `<span style="color: yellow">${l1Array[i]}, </span>`
+    }else{
+      newContent += `<span>${l1Array[i]}, </span>`
+    }
+    }
+  }
+    ref1.current.innerHTML = newContent;
   }
 
     
@@ -430,12 +455,12 @@ function App() {
       <div className='holder-numbers'>
         <div className='left'>
           <div className='grupos-2'>
-            <p>Grupo 1: {gruposLeft[0] != 'undefined' ? gruposLeft[0] : null}</p>
-            <p>Grupo 2: {gruposLeft[1] != 'undefined' ? gruposLeft[1] : null}</p>
-            <p>Grupo 3: {gruposLeft[2] != 'undefined' ? gruposLeft[2] : null}</p>
-            <p>Grupo 4: {gruposLeft[3] != 'undefined' ? gruposLeft[3] : null}</p>
-            <p>Grupo 5: {gruposLeft[4] != 'undefined' ? gruposLeft[4] : null}</p>
-            <p>Grupo 6: {gruposLeft[5] != 'undefined' ? gruposLeft[5] : null}</p>
+            <p>Grupo 1: {gruposLeft[0] != 'undefined' ? <span ref={ref1} id="grupoLeft1">{gruposLeft[0]}</span> : null} </p>
+            <p>Grupo 2: {gruposLeft[1] != 'undefined' ? <span id="grupoLeft2">{gruposLeft[1]}</span> : null}</p>
+            <p>Grupo 3: {gruposLeft[2] != 'undefined' ? <span id="grupoLeft3">{gruposLeft[2]}</span> : null}</p>
+            <p>Grupo 4: {gruposLeft[3] != 'undefined' ? <span id="grupoLeft4">{gruposLeft[3]}</span> : null}</p>
+            <p>Grupo 5: {gruposLeft[4] != 'undefined' ? <span id="grupoLeft5">{gruposLeft[4]}</span> : null}</p>
+            <p>Grupo 6: {gruposLeft[5] != 'undefined' ? <span id="grupoLeft6">{gruposLeft[5]}</span> : null}</p>
           </div>
         </div>
       <div className='numbers'>
@@ -456,18 +481,18 @@ function App() {
       </div>
       <div className='right'>
         <div>
-          <p>MODO G1: {String(calculateMode(localStorage.getItem("grupoholder0")))}</p>
-          <p>MODO G2: {String(calculateMode(localStorage.getItem("grupoholder1")))}</p>
-          <p>MODO G3: {String(calculateMode(localStorage.getItem("grupoholder2")))}</p>
-          <p>MODO G4: {String(calculateMode(localStorage.getItem("grupoholder3")))}</p>
-          <p>MODO G5: {String(calculateMode(localStorage.getItem("grupoholder4")))}</p>
-          <p>MODO G6: {String(calculateMode(localStorage.getItem("grupoholder5")))}</p>
           <p>Grupo 1: {localStorage.getItem("percentages0") == NaN ? null : localStorage.getItem("percentages0")}%</p>
           <p>Grupo 2: {localStorage.getItem("percentages1") == NaN ? null : localStorage.getItem("percentages1")}%</p>
           <p>Grupo 3: {localStorage.getItem("percentages2") == NaN ? null : localStorage.getItem("percentages2")}%</p>
           <p>Grupo 4: {localStorage.getItem("percentages3") == NaN ? null : localStorage.getItem("percentages3")}%</p>
           <p>Grupo 5: {localStorage.getItem("percentages4") == NaN ? null : localStorage.getItem("percentages4")}%</p>
           <p>Grupo 6: {localStorage.getItem("percentages5") == NaN ? null : localStorage.getItem("percentages5")}%</p>
+          <p>MODO G1: {String(calculateMode(localStorage.getItem("grupoholder0")))}</p>
+          <p>MODO G2: {String(calculateMode(localStorage.getItem("grupoholder1")))}</p>
+          <p>MODO G3: {String(calculateMode(localStorage.getItem("grupoholder2")))}</p>
+          <p>MODO G4: {String(calculateMode(localStorage.getItem("grupoholder3")))}</p>
+          <p>MODO G5: {String(calculateMode(localStorage.getItem("grupoholder4")))}</p>
+          <p>MODO G6: {String(calculateMode(localStorage.getItem("grupoholder5")))}</p>
         </div>
       </div>
     </div>
