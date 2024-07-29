@@ -284,6 +284,8 @@ function App() {
       }
     }
 
+    calculatePercentage()
+
   }
 
   const limparGrupo = (nmrGrupo) => {
@@ -311,15 +313,15 @@ function App() {
     let percentages = [];
     let total = 0;
     for(let i = 0; i < groups.length; i++){
-      total += groups[i] 
+      total += Number(groups[i]) 
     }
 
     for(let i = 0; i < groups.length; i++){
-      percentages[i] = (groups[i] / total) * 100
+      percentages[i] = Number((groups[i] / total) * 100)
     }
 
     for(let i = 0; i < groups.length; i++){
-      localStorage.setItem(`percentages${i}`, Math.trunc(Number(percentages[i])))
+      localStorage.setItem(`percentages${i}`, Number(Math.trunc(Number(percentages[i]))))
     }
     
   }
@@ -393,27 +395,7 @@ function App() {
         localStorage.setItem(`percentages${i}`, 0);
       }
     }
-    calculatePercentage()
-  }else{
-    //Mudar a cor do texto
-    /*let l1Array = ref1.current.innerHTML.split(',');
-    let newContent;
-    let l1MaiorNumero;
-    console.log(l1Array);
-  for(let i = 0; i < l1Array.length; i++){
-    if(l1Array[i] != undefined){
-      
-    if(l1Array[i] > l1MaiorNumero){
-      l1MaiorNumero = l1Array[i];
-    }
-    if(l1Array[i] === l1MaiorNumero){
-      newContent += `<span style="color: yellow">${l1Array[i]}, </span>`
-    }else{
-      newContent += `<span>${l1Array[i]}, </span>`
-    }
-    }
-  }
-    ref1.current.innerHTML = newContent;*/
+    
   }
 
     
@@ -455,12 +437,126 @@ function App() {
       <div className='holder-numbers'>
         <div className='left'>
           <div className='grupos-2'>
-            <p>Grupo 1: {gruposLeft[0] != 'undefined' ? <span ref={ref1} id="grupoLeft1">{gruposLeft[0]}</span> : null} </p>
-            <p>Grupo 2: {gruposLeft[1] != 'undefined' ? <span id="grupoLeft2">{gruposLeft[1]}</span> : null}</p>
-            <p>Grupo 3: {gruposLeft[2] != 'undefined' ? <span id="grupoLeft3">{gruposLeft[2]}</span> : null}</p>
-            <p>Grupo 4: {gruposLeft[3] != 'undefined' ? <span id="grupoLeft4">{gruposLeft[3]}</span> : null}</p>
-            <p>Grupo 5: {gruposLeft[4] != 'undefined' ? <span id="grupoLeft5">{gruposLeft[4]}</span> : null}</p>
-            <p>Grupo 6: {gruposLeft[5] != 'undefined' ? <span id="grupoLeft6">{gruposLeft[5]}</span> : null}</p>
+            <p>Grupo 1: {gruposLeft[0] != 'undefined' ? <>{//gruposLeft[0]
+            (() => {
+              let split = gruposLeft[0].split(',');
+              if(split.length > 1){
+                let arr = localStorage.getItem("grupoholder0").split(',');
+                let maiornmr = 0;
+                for(let i = 0; i < arr.length; i++){
+                  if(maiornmr < Number(arr[i])) maiornmr = Number(arr[i]);
+                }
+                return arr.map((num, index) => (
+                  <b key={index} style={{ color: Number(num) === maiornmr ? 'yellow' : 'white' }}>
+                    {num}<span style={{color: 'white'}}>, </span>
+                  </b>))
+              }else{
+                return (
+                  <b style={{color: 'yellow'}}>gruposLeft[0]</b>
+                )
+              }
+            })()
+            }</> : null} </p>
+            <p>Grupo 2: {gruposLeft[1] != 'undefined' ? <>{//gruposLeft[0]
+            (() => {
+              let split = gruposLeft[1].split(',');
+              if(split.length > 1){
+                let arr = localStorage.getItem("grupoholder1").split(',');
+                let maiornmr = 0;
+                for(let i = 0; i < arr.length; i++){
+                  if(maiornmr < Number(arr[i])) maiornmr = Number(arr[i]);
+                }
+                return arr.map((num, index) => (
+                  <b key={index} style={{ color: Number(num) === maiornmr ? 'yellow' : 'white' }}>
+                    {num}<span style={{color: 'white'}}>, </span>
+                  </b>))
+              }else{
+                return (
+                  <b style={{color: 'yellow'}}>{gruposLeft[1]}</b>
+                )
+              }
+            })()
+            }</> : null} </p>
+            <p>Grupo 3: {gruposLeft[2] != 'undefined' ? <>{//gruposLeft[0]
+            (() => {
+              let split = gruposLeft[2].split(',');
+              if(split.length > 1){
+                let arr = localStorage.getItem("grupoholder2").split(',');
+                let maiornmr = 0;
+                for(let i = 0; i < arr.length; i++){
+                  if(maiornmr < Number(arr[i])) maiornmr = Number(arr[i]);
+                }
+                return arr.map((num, index) => (
+                  <b key={index} style={{ color: Number(num) === maiornmr ? 'yellow' : 'white' }}>
+                    {num}<span style={{color: 'white'}}>, </span>
+                  </b>))
+              }else{
+                return (
+                  <b style={{color: 'yellow'}}>{gruposLeft[2]}</b>
+                )
+              }
+            })()
+            }</> : null} </p>
+            <p>Grupo 4: {gruposLeft[3] != 'undefined' ? <>{//gruposLeft[0]
+            (() => {
+              let split = gruposLeft[3].split(',');
+              if(split.length > 1){
+                let arr = localStorage.getItem("grupoholder3").split(',');
+                let maiornmr = 0;
+                for(let i = 0; i < arr.length; i++){
+                  if(maiornmr < Number(arr[i])) maiornmr = Number(arr[i]);
+                }
+                return arr.map((num, index) => (
+                  <b key={index} style={{ color: Number(num) === maiornmr ? 'yellow' : 'white' }}>
+                    {num}<span style={{color: 'white'}}>, </span>
+                  </b>))
+              }else{
+                return (
+                  <b style={{color: 'yellow'}}>{gruposLeft[3]}</b>
+                )
+              }
+            })()
+            }</> : null} </p>
+            <p>Grupo 5: {gruposLeft[4] != 'undefined' ? <>{//gruposLeft[0]
+            (() => {
+              let split = gruposLeft[4].split(',');
+              if(split.length > 1){
+                let arr = localStorage.getItem("grupoholder4").split(',');
+                let maiornmr = 0;
+                for(let i = 0; i < arr.length; i++){
+                  if(maiornmr < Number(arr[i])) maiornmr = Number(arr[i]);
+                }
+                return arr.map((num, index) => (
+                  <b key={index} style={{ color: Number(num) === maiornmr ? 'yellow' : 'white' }}>
+                    {num}<span style={{color: 'white'}}>, </span>
+                  </b>))
+              }else{
+                return (
+                  <b style={{color: 'yellow'}}>{gruposLeft[4]}</b>
+                )
+              }
+            })()
+            }</> : null} </p>
+            <p>Grupo 6: {gruposLeft[5] != 'undefined' ? <>{//gruposLeft[0]
+            (() => {
+              let split = gruposLeft[5].split(',');
+              if(split.length > 1){
+                let arr = localStorage.getItem("grupoholder5").split(',');
+                let maiornmr = 0;
+                for(let i = 0; i < arr.length; i++){
+                  if(maiornmr < Number(arr[i])) maiornmr = Number(arr[i]);
+                }
+                return arr.map((num, index) => (
+                  <b key={index} style={{ color: Number(num) === maiornmr ? 'yellow' : 'white' }}>
+                    {num}<span style={{color: 'white'}}>, </span>
+                  </b>))
+              }else{
+                return (
+                  <b style={{color: 'yellow'}}>{gruposLeft[5]}</b>
+                )
+              }
+            })()
+            }</> : null} </p>
           </div>
         </div>
       <div className='numbers'>
@@ -481,12 +577,14 @@ function App() {
       </div>
       <div className='right'>
         <div>
-          <p>Grupo 1: {localStorage.getItem("percentages0") == NaN ? null : localStorage.getItem("percentages0")}%</p>
-          <p>Grupo 2: {localStorage.getItem("percentages1") == NaN ? null : localStorage.getItem("percentages1")}%</p>
-          <p>Grupo 3: {localStorage.getItem("percentages2") == NaN ? null : localStorage.getItem("percentages2")}%</p>
-          <p>Grupo 4: {localStorage.getItem("percentages3") == NaN ? null : localStorage.getItem("percentages3")}%</p>
-          <p>Grupo 5: {localStorage.getItem("percentages4") == NaN ? null : localStorage.getItem("percentages4")}%</p>
-          <p>Grupo 6: {localStorage.getItem("percentages5") == NaN ? null : localStorage.getItem("percentages5")}%</p>
+          <p>Grupo 1: {
+          Number(localStorage.getItem("percentages0")) == NaN ? null : Number(localStorage.getItem("percentages0"))}%
+        </p>
+          <p>Grupo 2: {Number(localStorage.getItem("percentages1")) == NaN ? null : localStorage.getItem("percentages1")}%</p>
+          <p>Grupo 3: {Number(localStorage.getItem("percentages2")) == NaN ? null : localStorage.getItem("percentages2")}%</p>
+          <p>Grupo 4: {Number(localStorage.getItem("percentages3")) == NaN ? null : localStorage.getItem("percentages3")}%</p>
+          <p>Grupo 5: {Number(localStorage.getItem("percentages4")) == NaN ? null : localStorage.getItem("percentages4")}%</p>
+          <p>Grupo 6: {Number(localStorage.getItem("percentages5")) == NaN ? null : localStorage.getItem("percentages5")}%</p>
           <p>MODO G1: {String(calculateMode(localStorage.getItem("grupoholder0")))}</p>
           <p>MODO G2: {String(calculateMode(localStorage.getItem("grupoholder1")))}</p>
           <p>MODO G3: {String(calculateMode(localStorage.getItem("grupoholder2")))}</p>
