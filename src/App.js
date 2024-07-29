@@ -452,7 +452,7 @@ function App() {
                   </b>))
               }else{
                 return (
-                  <b style={{color: 'yellow'}}>gruposLeft[0]</b>
+                  <b style={{color: 'yellow'}}>{gruposLeft[0]}</b>
                 )
               }
             })()
