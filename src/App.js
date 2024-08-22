@@ -1,6 +1,7 @@
 import './App.css';
 import {useEffect, useRef, useState} from 'react';
 import calculateMode from './ModeCalc';
+import axios from 'axios';
 
 function App() {
   const [value, setValue] = useState();
@@ -38,140 +39,101 @@ function App() {
       localStorage.setItem("additionalGroups0", Number(localStorage.getItem("additionalGroups0")) + 1 )
 
       if(Number(localStorage.getItem("grupos"+String(grupo))) > 0){
-
-        if(localStorage.getItem("grupoholder"+String(grupo)) != 'undefined'){
-          let splitter = localStorage.getItem("grupoholder"+String(grupo)).split(',')
-          if(splitter.length == 50){
-            let old = splitter[49] //Armazena o último valor do array
-            let temp; //Variavel temporária
-            for(let i = 49; i >= 0; i--){
-                  if(i == 0){
-                    temp = splitter[i + 1] //Se for 0, pra não acessar o valor -1, ele pega o valor de [1]
-                  }else{
-                  temp = splitter[i - 1] //Se não for 0, ele pega o valor anterior da variavel para ser mudada
-                  }
-                  splitter[i - 1] = old //Variavel a ser mudada. Precisa ser armazenada antes, para não perde-la
-                  old = temp; //Muda o valor de old, para usar o antigo número, não o novo.
-                }
-            
-    
-            splitter[49] = localStorage.getItem("grupos"+String(grupo));
   
-            localStorage.setItem("grupoholder"+String(grupo), String(splitter));
+          if(localStorage.getItem("grupoholder"+String(grupo)) != 'undefined'){
+              let splitter = localStorage.getItem("grupoholder"+String(grupo)).split(',');
+              if(splitter.length == 50){
+                  // Remove o primeiro elemento
+                  splitter.pop(); 
+                  
+                  // Adiciona o novo valor no início do array
+                  splitter.unshift(localStorage.getItem("grupos"+String(grupo)));
   
-          }else{
-            localStorage.setItem("grupoholder"+String(grupo), localStorage.getItem("grupoholder"+String(grupo)) + "," + localStorage.getItem("grupos"+String(grupo)))
-          }
-        }else{
+                  localStorage.setItem("grupoholder"+String(grupo), String(splitter));
+              } else {
+                  localStorage.setItem("grupoholder"+String(grupo), String(localStorage.getItem("grupos"+String(grupo)) + "," + String(localStorage.getItem("grupoholder"+String(grupo)))));
+              }
+          } else {
               localStorage.setItem("grupoholder"+String(grupo), localStorage.getItem("grupos"+String(grupo)));
+          }
   
-        }
+          localStorage.setItem("grupos"+String(grupo), 0);
       }
-      localStorage.setItem("grupos"+String(grupo), 0);
     }else if(value > 6 && value <= 12){
       grupo = 1;
       localStorage.setItem("additionalGroups1", Number(localStorage.getItem("additionalGroups1")) + 1 )
       if(Number(localStorage.getItem("grupos"+String(grupo))) > 0){
-
-        if(localStorage.getItem("grupoholder"+String(grupo)) != 'undefined'){
-          let splitter = localStorage.getItem("grupoholder"+String(grupo)).split(',')
-          if(splitter.length == 50){
-            let old = splitter[49] //Armazena o último valor do array
-            let temp; //Variavel temporária
-            for(let i = 49; i >= 0; i--){
-                  if(i == 0){
-                    temp = splitter[i + 1] //Se for 0, pra não acessar o valor -1, ele pega o valor de [1]
-                  }else{
-                  temp = splitter[i - 1] //Se não for 0, ele pega o valor anterior da variavel para ser mudada
-                  }
-                  splitter[i - 1] = old //Variavel a ser mudada. Precisa ser armazenada antes, para não perde-la
-                  old = temp; //Muda o valor de old, para usar o antigo número, não o novo.
-                }
-            
-    
-            splitter[49] = localStorage.getItem("grupos"+String(grupo));
   
-            localStorage.setItem("grupoholder"+String(grupo), String(splitter));
+          if(localStorage.getItem("grupoholder"+String(grupo)) != 'undefined'){
+              let splitter = localStorage.getItem("grupoholder"+String(grupo)).split(',');
+              if(splitter.length == 50){
+                  // Remove o primeiro elemento
+                  splitter.pop(); 
+                  
+                  // Adiciona o novo valor no início do array
+                  splitter.unshift(localStorage.getItem("grupos"+String(grupo)));
   
-          }else{
-            localStorage.setItem("grupoholder"+String(grupo), localStorage.getItem("grupoholder"+String(grupo)) + "," + localStorage.getItem("grupos"+String(grupo)))
-          }
-        }else{
+                  localStorage.setItem("grupoholder"+String(grupo), String(splitter));
+              } else {
+                  localStorage.setItem("grupoholder"+String(grupo), String(localStorage.getItem("grupos"+String(grupo)) + "," + String(localStorage.getItem("grupoholder"+String(grupo)))));
+              }
+          } else {
               localStorage.setItem("grupoholder"+String(grupo), localStorage.getItem("grupos"+String(grupo)));
+          }
   
-        }
+          localStorage.setItem("grupos"+String(grupo), 0);
       }
-      localStorage.setItem("grupos"+String(grupo), 0);
-    }else if(value > 12 && value <= 18){
+  }
+    else if(value > 12 && value <= 18){
       grupo = 2;
 
       localStorage.setItem("additionalGroups2", Number(localStorage.getItem("additionalGroups2")) + 1 )
 
       if(Number(localStorage.getItem("grupos"+String(grupo))) > 0){
-
+  
         if(localStorage.getItem("grupoholder"+String(grupo)) != 'undefined'){
-          let splitter = localStorage.getItem("grupoholder"+String(grupo)).split(',')
-          if(splitter.length == 50){
-            let old = splitter[49] //Armazena o último valor do array
-            let temp; //Variavel temporária
-            for(let i = 49; i >= 0; i--){
-                  if(i == 0){
-                    temp = splitter[i + 1] //Se for 0, pra não acessar o valor -1, ele pega o valor de [1]
-                  }else{
-                  temp = splitter[i - 1] //Se não for 0, ele pega o valor anterior da variavel para ser mudada
-                  }
-                  splitter[i - 1] = old //Variavel a ser mudada. Precisa ser armazenada antes, para não perde-la
-                  old = temp; //Muda o valor de old, para usar o antigo número, não o novo.
-                }
-            
-    
-            splitter[49] = localStorage.getItem("grupos"+String(grupo));
-  
-            localStorage.setItem("grupoholder"+String(grupo), String(splitter));
-  
-          }else{
-            localStorage.setItem("grupoholder"+String(grupo), localStorage.getItem("grupoholder"+String(grupo)) + "," + localStorage.getItem("grupos"+String(grupo)))
-          }
-        }else{
-              localStorage.setItem("grupoholder"+String(grupo), localStorage.getItem("grupos"+String(grupo)));
-  
+            let splitter = localStorage.getItem("grupoholder"+String(grupo)).split(',');
+            if(splitter.length == 50){
+                // Remove o primeiro elemento
+                splitter.pop(); 
+                
+                // Adiciona o novo valor no início do array
+                splitter.unshift(localStorage.getItem("grupos"+String(grupo)));
+
+                localStorage.setItem("grupoholder"+String(grupo), String(splitter));
+            } else {
+                localStorage.setItem("grupoholder"+String(grupo), String(localStorage.getItem("grupos"+String(grupo)) + "," + String(localStorage.getItem("grupoholder"+String(grupo)))));
+            }
+        } else {
+            localStorage.setItem("grupoholder"+String(grupo), localStorage.getItem("grupos"+String(grupo)));
         }
-      }
-      localStorage.setItem("grupos"+String(grupo), 0);
+
+        localStorage.setItem("grupos"+String(grupo), 0);
+    }
     }else if(value > 18 && value <= 24){
       grupo = 3;
       localStorage.setItem("additionalGroups3", Number(localStorage.getItem("additionalGroups3")) + 1 )
       if(Number(localStorage.getItem("grupos"+String(grupo))) > 0){
-
+  
         if(localStorage.getItem("grupoholder"+String(grupo)) != 'undefined'){
-          let splitter = localStorage.getItem("grupoholder"+String(grupo)).split(',')
-          if(splitter.length == 50){
-            let old = splitter[49] //Armazena o último valor do array
-            let temp; //Variavel temporária
-            for(let i = 49; i >= 0; i--){
-                  if(i == 0){
-                    temp = splitter[i + 1] //Se for 0, pra não acessar o valor -1, ele pega o valor de [1]
-                  }else{
-                  temp = splitter[i - 1] //Se não for 0, ele pega o valor anterior da variavel para ser mudada
-                  }
-                  splitter[i - 1] = old //Variavel a ser mudada. Precisa ser armazenada antes, para não perde-la
-                  old = temp; //Muda o valor de old, para usar o antigo número, não o novo.
-                }
-            
-    
-            splitter[49] = localStorage.getItem("grupos"+String(grupo));
-  
-            localStorage.setItem("grupoholder"+String(grupo), String(splitter));
-  
-          }else{
-            localStorage.setItem("grupoholder"+String(grupo), localStorage.getItem("grupoholder"+String(grupo)) + "," + localStorage.getItem("grupos"+String(grupo)))
-          }
-        }else{
-              localStorage.setItem("grupoholder"+String(grupo), localStorage.getItem("grupos"+String(grupo)));
-  
+            let splitter = localStorage.getItem("grupoholder"+String(grupo)).split(',');
+            if(splitter.length == 50){
+                // Remove o primeiro elemento
+                splitter.pop(); 
+                
+                // Adiciona o novo valor no início do array
+                splitter.unshift(localStorage.getItem("grupos"+String(grupo)));
+
+                localStorage.setItem("grupoholder"+String(grupo), String(splitter));
+            } else {
+                localStorage.setItem("grupoholder"+String(grupo), String(localStorage.getItem("grupos"+String(grupo)) + "," + String(localStorage.getItem("grupoholder"+String(grupo)))));
+            }
+        } else {
+            localStorage.setItem("grupoholder"+String(grupo), localStorage.getItem("grupos"+String(grupo)));
         }
-      }
-      localStorage.setItem("grupos"+String(grupo), 0);
+
+        localStorage.setItem("grupos"+String(grupo), 0);
+    }
     }else if(value > 24 && value <= 30){
       grupo = 4;
       localStorage.setItem("additionalGroups4", Number(localStorage.getItem("additionalGroups4")) + 1 )
@@ -210,36 +172,26 @@ function App() {
       grupo = 5;
       localStorage.setItem("additionalGroups5", Number(localStorage.getItem("additionalGroups5")) + 1 )
       if(Number(localStorage.getItem("grupos"+String(grupo))) > 0){
-
+  
         if(localStorage.getItem("grupoholder"+String(grupo)) != 'undefined'){
-          let splitter = localStorage.getItem("grupoholder"+String(grupo)).split(',')
-          if(splitter.length == 50){
-            let old = splitter[49] //Armazena o último valor do array
-            let temp; //Variavel temporária
-            for(let i = 49; i >= 0; i--){
-                  if(i == 0){
-                    temp = splitter[i + 1] //Se for 0, pra não acessar o valor -1, ele pega o valor de [1]
-                  }else{
-                  temp = splitter[i - 1] //Se não for 0, ele pega o valor anterior da variavel para ser mudada
-                  }
-                  splitter[i - 1] = old //Variavel a ser mudada. Precisa ser armazenada antes, para não perde-la
-                  old = temp; //Muda o valor de old, para usar o antigo número, não o novo.
-                }
-            
-    
-            splitter[49] = localStorage.getItem("grupos"+String(grupo));
-  
-            localStorage.setItem("grupoholder"+String(grupo), String(splitter));
-  
-          }else{
-            localStorage.setItem("grupoholder"+String(grupo), localStorage.getItem("grupoholder"+String(grupo)) + "," + localStorage.getItem("grupos"+String(grupo)))
-          }
-        }else{
-              localStorage.setItem("grupoholder"+String(grupo), localStorage.getItem("grupos"+String(grupo)));
-  
+            let splitter = localStorage.getItem("grupoholder"+String(grupo)).split(',');
+            if(splitter.length == 50){
+                // Remove o primeiro elemento
+                splitter.pop(); 
+                
+                // Adiciona o novo valor no início do array
+                splitter.unshift(localStorage.getItem("grupos"+String(grupo)));
+
+                localStorage.setItem("grupoholder"+String(grupo), String(splitter));
+            } else {
+                localStorage.setItem("grupoholder"+String(grupo), String(localStorage.getItem("grupos"+String(grupo)) + "," + String(localStorage.getItem("grupoholder"+String(grupo)))));
+            }
+        } else {
+            localStorage.setItem("grupoholder"+String(grupo), localStorage.getItem("grupos"+String(grupo)));
         }
-      }
-      localStorage.setItem("grupos"+String(grupo), 0);
+
+        localStorage.setItem("grupos"+String(grupo), 0);
+    }
     }
 
     localStorage.setItem("oldgrupo", String(grupo))
@@ -338,8 +290,6 @@ function App() {
 
   useEffect(() => {
     if(loading){
-      setOldValue(localStorage.getItem("oldvalue"));
-      setOldGroup(localStorage.getItem("oldgrupo"));
       
 
     const newArr = []
@@ -395,11 +345,11 @@ function App() {
         localStorage.setItem(`percentages${i}`, 0);
       }
     }
-    
   }
 
     
   },[loading])
+
 
   if(loading){
     return <div>Loading...</div>
